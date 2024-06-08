@@ -4,43 +4,49 @@
 # No final exibe estatísticas
 
 from random import choice
-a = True
-emp = vit = der = 0
-while a == True:
-    lista = ['pedra', 'papel', 'tesoura']
-    pc = choice(lista)
-    b = True
-    while b == True:
+
+empates, vitorias, derrotas = 0, 0, 0
+
+while True:
+    pc = choice(['pedra', 'papel', 'tesoura'])
+
+    while True:
         user = input('Escolha pedra, papel ou tesoura: ').lower()
-        if pc == user:
-            print(f'O computador escolheu {pc}.')
-            print('\033[33mEmpate.\033[m')
-            emp += 1
-            break
-        elif (pc == 'pedra' and user == 'papel') or (pc == 'tesoura' and user == 'pedra') or (pc == 'papel' and user == 'tesoura'):
-            print(f'O computador escolheu {pc}.')
-            print('\033[32mVocê ganhou.\033[m')
-            vit += 1
-            break
-        elif (pc == 'papel' and user == 'pedra') or (pc == 'pedra' and user == 'tesoura') or (pc == 'tesoura' and user == 'papel'):
-            print(f'O computador escolheu {pc}.')
-            print('\033[31mVocê perdeu.\033[m')
-            der += 1
+        if user in ['pedra', 'papel', 'tesoura']:
             break
         else:
-            print('Digite um nome válido!')
-    c = True
-    while c == True:
-        r = input('Deseja continuar [S/N]? ').upper()
-        if r == 'S':
+            print('Digite uma escolha válida!')
+
+    if pc == user:
+        print(f'O computador escolheu {pc}.')
+        print('\033[33mEmpate.\033[m')
+        empates += 1
+    elif (pc == 'pedra' and user == 'papel') or \
+         (pc == 'tesoura' and user == 'pedra') or \
+         (pc == 'papel' and user == 'tesoura'):
+        print(f'O computador escolheu {pc}.')
+        print('\033[32mVocê ganhou.\033[m')
+        vitorias += 1
+    else:
+        print(f'O computador escolheu {pc}.')
+        print('\033[31mVocê perdeu.\033[m')
+        derrotas += 1
+
+    while True:
+        continuar = input('Deseja continuar [S/N]? ').upper()
+        if continuar == 'N':
             break
-        elif r == 'N':
-            a = False
+        elif continuar == 'S':
             break
         else:
             print('Inválido! Digite novamente.')
+    
+    if continuar == 'N':
+        break
+
 print('='*38)
 print('--ESTATISTICAS--')
-print(f'\033[33mEmpates: {emp}\033[m\n\033[32mVitorias: {vit}\033[m\n\033[31mDerrotas: {der}\033[m')
-porVit = ((emp * 0.5 + vit) / (vit + emp + der) * 100)
-print(f'Sua porcentagem de vitórias é de \033[32m{porVit:.1f}%')
+print(f'\033[33mEmpates: {empates}\033[m\n\033[32mVitorias: {vitorias}\033[m\n\033[31mDerrotas: {derrotas}\033[m')
+totalJogos = vitorias + empates + derrotas
+porcentagemVitorias = ((vitorias + empates) / totalJogos) * 100
+print(f'Sua porcentagem de vitórias é de \033[32m{porcentagemVitorias:.1f}%\033[m')
