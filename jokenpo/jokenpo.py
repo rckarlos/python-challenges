@@ -7,46 +7,48 @@ from random import choice
 
 empates, vitorias, derrotas = 0, 0, 0
 
-while True:
-    pc = choice(['pedra', 'papel', 'tesoura'])
+print('Vamos brincar de pedra papel e tesoura?\n')
 
+while True:
+    pc = choice([1, 2, 3])
+    print('''ESCOLHA UM NÚMERO
+\033[34m[1]\033[m PEDRA
+\033[34m[2]\033[m PAPEL
+\033[34m[3]\033[m TESOURA
+\033[31m[4]\033[m CANCELAR''')
+    
     while True:
-        user = input('Escolha pedra, papel ou tesoura: ').lower()
-        if user in ['pedra', 'papel', 'tesoura']:
+        user = int(input(''))
+        if 1 <= user <= 3:
+            break
+        elif user == 4:
             break
         else:
-            print('Digite uma escolha válida!')
+            print('\033[31mDigite um número válido!\033[m')
+
+    if user == 4:
+        break
+
+    print(f'O computador escolheu \033[34m{pc}\033[m.')
 
     if pc == user:
-        print(f'O computador escolheu {pc}.')
-        print('\033[33mEmpate.\033[m')
+        print('\033[33mEmpate!\033[m\n')
         empates += 1
-    elif (pc == 'pedra' and user == 'papel') or \
-         (pc == 'tesoura' and user == 'pedra') or \
-         (pc == 'papel' and user == 'tesoura'):
-        print(f'O computador escolheu {pc}.')
-        print('\033[32mVocê ganhou.\033[m')
+    elif (pc == 1 and user == 2) or\
+        (pc == 2 and user == 3) or\
+        (pc == 3 and user == 1):
+        print('\033[32mVocê venceu!\033[m\n')
         vitorias += 1
     else:
-        print(f'O computador escolheu {pc}.')
-        print('\033[31mVocê perdeu.\033[m')
+        print('\033[31mVocê perdeu.\033[m\n')
         derrotas += 1
 
-    while True:
-        continuar = input('Deseja continuar [S/N]? ').upper()
-        if continuar == 'N':
-            break
-        elif continuar == 'S':
-            break
-        else:
-            print('Inválido! Digite novamente.')
-    
-    if continuar == 'N':
-        break
 
 print('='*38)
 print('--ESTATISTICAS--')
-print(f'\033[33mEmpates: {empates}\033[m\n\033[32mVitorias: {vitorias}\033[m\n\033[31mDerrotas: {derrotas}\033[m')
+print(f'''\033[33mEmpates: {empates}\033[m
+\033[32mVitorias: {vitorias}\033[m
+\033[31mDerrotas: {derrotas}\033[m''')
 totalJogos = vitorias + empates + derrotas
-porcentagemVitorias = ((vitorias + empates) / totalJogos) * 100
+porcentagemVitorias = ((vitorias + (empates * 0.5)) / totalJogos) * 100
 print(f'Sua porcentagem de vitórias é de \033[32m{porcentagemVitorias:.1f}%\033[m')
